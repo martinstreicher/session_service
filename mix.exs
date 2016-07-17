@@ -20,13 +20,13 @@ defmodule SessionService.Mixfile do
   def application do
     [
       applications: [
-        :cowboy, 
-        :gettext, 
-        :logger, 
-        :phoenix, 
-        :phoenix_ecto, 
-        :phoenix_html, 
-        :phoenix_pubsub, 
+        :cowboy,
+        :gettext,
+        :logger,
+        :phoenix,
+        :phoenix_ecto,
+        :phoenix_html,
+        :phoenix_pubsub,
         :postgrex ],
       mod: { SessionService, [] } ]
   end
