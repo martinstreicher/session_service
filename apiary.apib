@@ -4,8 +4,22 @@ HOST: http://polls.apiblueprint.org/
 # sessions_service
 
 The Sessions Service provides facilities to create a session, tie a 
-session to a specific user, and authenticate users (via a separate 
+session to a specific user, authenticate users (via a separate 
 Authentication Service), and combine users to a single session. 
+
+## Root [/]
+
+### Retrieve the entry points [GET]
+
++ Response 200 (application/json)
+
+        {
+            "logins_url":   "/sessions/:id/logins",
+            "oauths_url":   "/sessions/:id/oauths",
+            "session_url":  "/sessions/:id",
+            "sessions_url": "/sessions"
+        }
+
 
 ## Sessions [/sessions]
 
@@ -23,8 +37,8 @@ This action returns a 200 status code and a JSON body.
 ## Session [/sessions/{session_id}]
 
 + Parameters
-    + session_id (number) - ID of the Session in the form of an integer
-
+    + session_id: `12345` (number, required) - ID of the Session
+    
 ### Get an existing Session [GET] 
 
 Find all information associated with a session ID. 
@@ -36,18 +50,28 @@ This returns a 200 status code and a JSON body.
         - session (Session)
 
 
-## Credential [/sessions/{session_id}/credentials]
-
-### Create a new Credential [POST]
+## Login [/sessions/{session_id}/logins]
 
 + Parameter
     + session_id: `12345` (number, required)
 
+### Create a new Login [POST]
+
 + Request (application/json)
     + Attributes
-        - credentials (Credential Create)
+        - login (Login)
         
 + Response 201 (application/json)
+    + Attributes
+        - session (Session)
+
+### Authenticate an existing Login [GET]
+
++ Request (application/json)
+    + Attributes
+        - login (Login)
+        
++ Response 200 (application/json)
     + Attributes
         - session (Session)
 
@@ -62,19 +86,22 @@ This returns a 200 status code and a JSON body.
     - facebook - A user created via Facebook.
     - twitter - A user created via Twitter. 
     - google - A user created via Google. 
-    - password - A user created via the site directly. 
+    - login - A user created via the site directly. 
 
 
-## Credential Create (object)
+## Login (object)
 
 - email: `joe@example.org` (string, required) - An email address.
 - password: `password` (string, required) - A password. 
+
+
+## OAuth (object)
+
 - type (enum[string], required)
     - facebook
     - twitter
     - google
-    - password
-  
+
   
 ## Session (object)
 
