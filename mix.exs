@@ -45,6 +45,7 @@ defmodule SessionService.Mixfile do
       {:exredis, ">= 0.2.4"},
       {:gettext, "~> 0.11"},
       {:guardian, "~> 0.12.0"},
+      {:hound, "~> 1.0"},
       {:jose, "~> 1.7"},
       {:phoenix, "~> 1.2.0"},
       {:phoenix_ecto, "~> 3.0"},

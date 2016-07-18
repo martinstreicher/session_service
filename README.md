@@ -115,6 +115,28 @@ Now visit [`localhost:4000`](http://localhost:4000) from your browser.
 Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
 
 
+
+# Running Integration Tests
+The session_service uses [hound](https://github.com/HashNuke/hound) to run integration tests. In
+order to run the tests, you need a webdriver installed. This project uses [chromedriver](https://sites.google.com/a/chromium.org/chromedriver/).
+
+To install ChromeDriver:
+```
+$ brew install chromedriver
+```
+
+By default, integration tests are not run with `$ mix test` (because they are slow)
+
+To run the tests you need chromedriver and a phoenix server running:
+```
+$ chromedriver (in a seperate terminal)
+$ mix phoenix.server (in a seperate terminal)
+$ mix test.all
+```
+This opens the chromedriver on `port 9515`.
+
+
+
 # References
 
 ## Libraries and Technologies
