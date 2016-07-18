@@ -1,0 +1,78 @@
+FORMAT: 1A
+HOST: http://polls.apiblueprint.org/
+
+# sessions_service
+
+The Sessions Service provides facilities to create a session, tie a 
+session to a specific user, and authenticate users (via a separate 
+Authentication Service), and combine users to a single session. 
+
+## Sessions [/sessions]
+
+### Create a new Session [POST]
+
+Request a new session ID and user ID pair. 
+
+This action returns a 200 status code and a JSON body. 
+
++ Response 200 (application/json)
+    + Attributes
+        - session (Session)
+        
+## Session [/sessions/{session_id}]
+
++ Parameters
+    + session_id (number) - ID of the Session in the form of an integer
+
+### Get an existing Session [GET] 
+
+Find all information associated with a session ID. 
+
+This returns a 200 status code and a JSON body. 
+
++ Response 200 (application/json)
+    + Attributes
+        - session (Session)
+
+## Credential [/sessions/{session_id}/credentials]
+
+### Create a new Credential [POST]
+
++ Parameter
+    + session_id: `12345` (number, required)
+
++ Request (application/json)
+    + Attributes
+        - credentials (Credential Create)
+        
++ Response 201 (application/json)
+    + Attributes
+        - session (Session)
+
+
+# Data Structures
+
+## Credential (object)
+
+- user_id: `12345` (number, required) - The unique ID of the user. 
+- type (enum[string], required)
+    - guest - A new visitor.
+    - facebook - A user created via Facebook.
+    - twitter - A user created via Twitter. 
+    - google - A user created via Google. 
+    - password - A user created via the site directly. 
+
+## Credential Create (object)
+
+- email: `joe@example.org` (string, required) - An email address.
+- password: `password` (string, required) - A password. 
+- type (enum[string], required)
+    - facebook
+    - twitter
+    - google
+    - password
+    
+## Session (object)
+
+- session_id: `12345` (number, required) - The session ID. 
+- credentials (array[Credential], required)
