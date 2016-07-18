@@ -117,7 +117,7 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 
 
 # Running Integration Tests
-Deployek uses [hound](https://github.com/HashNuke/hound) to run integration tests. In
+The session_service uses [hound](https://github.com/HashNuke/hound) to run integration tests. In
 order to run the tests, you need a webdriver installed. This project uses [chromedriver](https://sites.google.com/a/chromium.org/chromedriver/).
 
 To install ChromeDriver:
