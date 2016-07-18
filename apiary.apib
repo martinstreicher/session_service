@@ -18,6 +18,7 @@ This action returns a 200 status code and a JSON body.
 + Response 200 (application/json)
     + Attributes
         - session (Session)
+
         
 ## Session [/sessions/{session_id}]
 
@@ -33,6 +34,7 @@ This returns a 200 status code and a JSON body.
 + Response 200 (application/json)
     + Attributes
         - session (Session)
+
 
 ## Credential [/sessions/{session_id}/credentials]
 
@@ -62,6 +64,7 @@ This returns a 200 status code and a JSON body.
     - google - A user created via Google. 
     - password - A user created via the site directly. 
 
+
 ## Credential Create (object)
 
 - email: `joe@example.org` (string, required) - An email address.
@@ -71,7 +74,8 @@ This returns a 200 status code and a JSON body.
     - twitter
     - google
     - password
-    
+  
+  
 ## Session (object)
 
 - session_id: `12345` (number, required) - The session ID. 
