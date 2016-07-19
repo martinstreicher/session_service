@@ -2,7 +2,6 @@ defmodule SessionService.V1.SessionController do
   use SessionService.Web, :controller
 
   plug :scrub_params, "session" when action in [:create]
-  plug :action
 
   def create(conn, %{"session" => session_params}) do
     conn
