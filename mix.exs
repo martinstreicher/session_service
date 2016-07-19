@@ -8,7 +8,7 @@ defmodule SessionService.Mixfile do
       build_embedded: Mix.env == :prod,
       compilers:  [:phoenix, :gettext] ++ Mix.compilers,
       deps:       deps(),
-      elixir:     "~> 1.2",
+      elixir:     "~> 1.3",
       elixirc_paths: elixirc_paths(Mix.env),
       start_permanent: Mix.env == :prod,
       version:    "0.0.1" ]
@@ -45,6 +45,7 @@ defmodule SessionService.Mixfile do
       {:exredis, ">= 0.2.4"},
       {:gettext, "~> 0.11"},
       {:guardian, "~> 0.12.0"},
+      {:guardian_db, "~> 0.7.0"},
       {:hound, "~> 1.0"},
       {:jose, "~> 1.7"},
       {:phoenix, "~> 1.2.0"},
