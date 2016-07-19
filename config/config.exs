@@ -25,8 +25,8 @@ config :guardian_db, GuardianDb,
        sweep_interval: 120 # 120 minutes
 
 # Integration tests require chromedriver to be running
-# config :hound, driver: "chrome_driver"
-# config :hound, app_host: "http://localhost", app_port: 4000
+config :hound, driver: "chrome_driver"
+config :hound, app_host: "http://localhost", app_port: 4000
 
 #
 # Configures Elixir's Logger
