@@ -3,18 +3,18 @@ HOST: http://polls.apiblueprint.org/
 
 # sessions_service
 
-The Sessions Service provides facilities to create a session, tie a 
+The Sessions Service provides facilities to create a session, tie a
 session to one or more user IDs, tie a session to one or more
 third-party identities, and create and authenticate login
-credentials via a separate Authentication Service. 
+credentials via a separate Authentication Service.
 
 
 ## Root [/]
 
-The root path returns a map of available service endpoints. External 
-services can query the root path for a directory of 
-endpoints, rather than hard-code URLs, allowing for more flexible 
-service discovery and use. 
+The root path returns a map of available service endpoints. External
+services can query the root path for a directory of
+endpoints, rather than hard-code URLs, allowing for more flexible
+service discovery and use.
 
 
 ### Retrieve the entry points [GET]
@@ -36,9 +36,9 @@ service discovery and use.
 
 ### Create a new Session [POST]
 
-Request a new session ID and user ID pair. 
+Request a new session ID and user ID pair.
 
-This action returns a 200 status code and a JSON body. 
+This action returns a 200 status code and a JSON body.
 
 + Response 200 (application/json)
     + Attributes
@@ -46,17 +46,17 @@ This action returns a 200 status code and a JSON body.
 
 + Response 403 (application/json)
 
-        
+
 ## Session [/api/v1/sessions/{session_id}]
 
 + Parameters
     + session_id: `12345` (number, required) - ID of the Session
-    
-### Get an existing Session [GET] 
 
-Find all information associated with a session ID. 
+### Get an existing Session [GET]
 
-Success returns a 200 status code and a JSON body. 
+Find all information associated with a session ID.
+
+Success returns a 200 status code and a JSON body.
 
 + Response 200 (application/json)
     + Attributes
@@ -65,7 +65,7 @@ Success returns a 200 status code and a JSON body.
 
 ### Delete an existing Session[DELETE]
 
-Destroy an existing session and all credentials associated with it. 
+Destroy an existing session and all credentials associated with it.
 
 + Response 200 (application/json)
     + Attributes
@@ -79,8 +79,8 @@ Destroy an existing session and all credentials associated with it.
 ### Request a new Oauth-based identity[POST]
 
 + Request
-    + Attributes 
-        - type (Identity, required) 
+    + Attributes
+        - type (Identity, required)
 
 + Response 200 (application/json)
     + Attributes
@@ -99,7 +99,7 @@ Destroy an existing session and all credentials associated with it.
 + Request (application/json)
     + Attributes
         - login (Login)
-        
+
 + Response 201 (application/json)
     + Attributes
         - session (Session)
@@ -114,7 +114,7 @@ Destroy an existing session and all credentials associated with it.
 + Request (application/json)
     + Attributes
         - login (Login)
-        
+
 + Response 200 (application/json)
     + Attributes
         - session (Session)
@@ -133,7 +133,7 @@ Destroy an existing session and all credentials associated with it.
 + Request (application/json)
     + Attributes
         - credential (Credential)
-        
+
 + Response 201 (application/json)
     + Attributes
         - session (Session)
@@ -144,11 +144,11 @@ Destroy an existing session and all credentials associated with it.
 + Request (application/json)
     + Attributes
         - credential (Credential, required)
-        
+
 + Response 200 (application/json)
     + Attributes
         - session (Session)
-        
+
 + Response 404 (application/json)
 
 
@@ -164,11 +164,11 @@ Destroy an existing session and all credentials associated with it.
 
 + Response 401 (application/json)
 
-        Credential cannot be deleted, likely because the session is not associated with the credential. 
-        
+        Credential cannot be deleted, likely because the session is not associated with the credential.
+
 + Response 404 (application/json)
 
-        Credential cannot be found. 
+        Credential cannot be found.
 
 
 # Data Structures
@@ -176,29 +176,29 @@ Destroy an existing session and all credentials associated with it.
 
 ## Credential (object)
 
-- user_id: `12345` (number, required) - The unique ID of the user. 
+- user_id: `abcdefgh123` (string, required) - The unique ID of the user.
 - type (enum[string], required)
     - facebook - A user created via Facebook.
-    - twitter - A user created via Twitter. 
-    - google - A user created via Google. 
-    - login - A user created via the site directly. 
+    - twitter - A user created via Twitter.
+    - google - A user created via Google.
+    - login - A user created via the site directly.
 
 
 ## Identity (object)
 
 - type (enum[string], required)
     - facebook - A user created via Facebook.
-    - twitter - A user created via Twitter. 
-    - google - A user created via Google. 
+    - twitter - A user created via Twitter.
+    - google - A user created via Google.
 
 
 ## Login (object)
 
 - email: `joe@example.org` (string, required) - An email address.
-- password: `password` (string, required) - A password. 
+- password: `password` (string, required) - A password.
 
 
 ## Session (object)
 
-- session_id: `12345` (number, required) - The session ID. 
+- session_id: `12345` (number, required) - The session ID.
 - credentials (array[Credential], required)
