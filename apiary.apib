@@ -1,4 +1,4 @@
-FORMAT: 1A
+dd FORMAT: 1A
 HOST: http://polls.apiblueprint.org/
 
 # sessions_service
@@ -43,6 +43,8 @@ This action returns a 200 status code and a JSON body.
     + Attributes
         - session (Session)
 
++ Response 403 (application/json)
+
         
 ## Session [/api/v1/sessions/{session_id}]
 
@@ -75,6 +77,11 @@ This returns a 200 status code and a JSON body.
     + Attributes
         - session (Session)
 
++ Response 403 (application/json)
+
++ Response 409 (application/json)
+
+
 ### Authenticate an existing Login [GET]
 
 + Request (application/json)
@@ -84,6 +91,8 @@ This returns a 200 status code and a JSON body.
 + Response 200 (application/json)
     + Attributes
         - session (Session)
+
++ Response 401 (application/json)
 
 
 ## Credential [/api/v1/sessions/{session_id}/credentials]
@@ -106,14 +115,32 @@ This returns a 200 status code and a JSON body.
 
 + Request (application/json)
     + Attributes
-        - user_id: `12345` (number, required) - A third-party user ID, 
-        such as the user ID returned from a Facebook Oauth call. 
-
+        - credential (Credential, required)
+        
 + Response 200 (application/json)
     + Attributes
         - session (Session)
         
 + Response 404 (application/json)
+
+
+### Delete an existing Credential [DELETE]
+
++ Request (application/json)
+    + Attributes
+        - credential (Credential, required)
+
++ Response 200 (application/json)
+    + Attributes
+        - session (Session)
+
++ Response 401 (application/json)
+
+        Credential cannot be deleted, likely because the session is not associated with the credential. 
+        
++ Response 404 (application/json)
+
+        Credential cannot be found. 
 
 
 # Data Structures
