@@ -4,24 +4,34 @@ HOST: http://polls.apiblueprint.org/
 # sessions_service
 
 The Sessions Service provides facilities to create a session, tie a 
-session to a specific user, authenticate users (via a separate 
-Authentication Service), and combine users to a single session. 
+session to one or more user IDs, and create and authenticate login
+credentials via a separate Authentication Service. 
+
 
 ## Root [/]
+
+The root path returns a map of available service endpoints. External 
+services can query the root path for a directory of 
+endpoints, rather than hard-code URLs, allowing for more flexible 
+service discovery and use. 
+
 
 ### Retrieve the entry points [GET]
 
 + Response 200 (application/json)
 
         {
-            "logins_url":   "/sessions/:id/logins",
-            "oauths_url":   "/sessions/:id/oauths",
-            "session_url":  "/sessions/:id",
-            "sessions_url": "/sessions"
+            "v1": {
+                "credentials_url":  "/api/v1/sessions/:id/credentials,
+                "logins_url":       "/api/v1/sessions/:id/logins",
+                "oauths_url":       "/api/v1/sessions/:id/oauths",
+                "session_url":      "/api/v1/sessions/:id",
+                "sessions_url":     "/api/v1/sessions"
+            }
         }
 
 
-## Sessions [/sessions]
+## Sessions [/api/v1/sessions]
 
 ### Create a new Session [POST]
 
@@ -34,7 +44,7 @@ This action returns a 200 status code and a JSON body.
         - session (Session)
 
         
-## Session [/sessions/{session_id}]
+## Session [/api/v1/sessions/{session_id}]
 
 + Parameters
     + session_id: `12345` (number, required) - ID of the Session
@@ -50,7 +60,7 @@ This returns a 200 status code and a JSON body.
         - session (Session)
 
 
-## Login [/sessions/{session_id}/logins]
+## Login [/api/v1/sessions/{session_id}/logins]
 
 + Parameter
     + session_id: `12345` (number, required)
@@ -76,13 +86,42 @@ This returns a 200 status code and a JSON body.
         - session (Session)
 
 
+## Credential [/api/v1/sessions/{session_id}/credentials]
+
++ Parameter
+    + session_id: `12345` (number, required)
+
+### Create a new Credential [POST]
+
++ Request (application/json)
+    + Attributes
+        - credential (Credential)
+        
++ Response 201 (application/json)
+    + Attributes
+        - session (Session)
+
+
+### Lookup an existing Credential [GET]
+
++ Request (application/json)
+    + Attributes
+        - user_id: `12345` (number, required) - A third-party user ID, 
+        such as the user ID returned from a Facebook Oauth call. 
+
++ Response 200 (application/json)
+    + Attributes
+        - session (Session)
+        
++ Response 404 (application/json)
+
+
 # Data Structures
 
 ## Credential (object)
 
 - user_id: `12345` (number, required) - The unique ID of the user. 
 - type (enum[string], required)
-    - guest - A new visitor.
     - facebook - A user created via Facebook.
     - twitter - A user created via Twitter. 
     - google - A user created via Google. 
@@ -93,14 +132,6 @@ This returns a 200 status code and a JSON body.
 
 - email: `joe@example.org` (string, required) - An email address.
 - password: `password` (string, required) - A password. 
-
-
-## OAuth (object)
-
-- type (enum[string], required)
-    - facebook
-    - twitter
-    - google
 
   
 ## Session (object)
