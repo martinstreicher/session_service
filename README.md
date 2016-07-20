@@ -9,8 +9,8 @@ The purposes of SessionService are:
 
 * Ascribe a _unique user identifier_ (or _UUID_) to every visitor of a site.
 
-	Combined with Javascript embedded in a collection of sites, the UUID can track the
-	visitor across sites.)
+	Combined with a modicum of client-side Javascript, the UUID can track the
+	visitor across a collection of sites.
 
 * Create a credential given an email address and password (via the
 separate Authentication Service).
