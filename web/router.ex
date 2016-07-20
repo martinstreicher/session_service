@@ -5,6 +5,8 @@ defmodule SessionService.Router do
     plug :accepts, ["json"]
   end
 
+  get "/", SessionService.RootController, :index
+
   # Other scopes may use custom stacks.
   scope "/api", SessionService do
     pipe_through :api

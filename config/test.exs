@@ -17,3 +17,5 @@ config :session_service, SessionService.Repo,
   database: "session_service_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+import_config "test.secret.exs"
