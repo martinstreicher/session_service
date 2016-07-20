@@ -10,11 +10,12 @@ defmodule SessionService do
     children = [
       # Start the Ecto repository
       supervisor(SessionService.Repo, []),
+
       # Start the endpoint when the application starts
       supervisor(SessionService.Endpoint, []),
+
       # Start your own worker by calling: SessionService.Worker.start_link(arg1, arg2, arg3)
       # worker(SessionService.Worker, [arg1, arg2, arg3]),
-      worker(GuardianDb.ExpiredSweeper, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

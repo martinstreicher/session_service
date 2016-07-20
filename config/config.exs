@@ -20,10 +20,6 @@ config :session_service, SessionService.Endpoint,
   pubsub: [name: SessionService.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
-config :guardian_db, GuardianDb,
-       repo: SessionService.Repo,
-       sweep_interval: 120 # 120 minutes
-
 # Integration tests require chromedriver to be running
 config :hound, driver: "chrome_driver"
 config :hound, app_host: "http://localhost", app_port: 4000
