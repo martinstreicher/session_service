@@ -1,9 +1,10 @@
 defmodule SessionService.V1.SessionController do
   use SessionService.Web, :controller
+  use Guardian.Phoenix.Controller
 
   plug :scrub_params, "session" when action in [:create]
 
-  def create(conn, %{"session" => session_params}) do
+  def create(conn, _params) do
     conn
   end
 
