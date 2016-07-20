@@ -1,6 +1,48 @@
 # SessionService
 
-A session microservice written in Elixir and Phoenix
+A session microservice written in Elixir and Phoenix.
+
+
+# Purpose
+
+The purposes of SessionService are:
+
+* Ascribe a _unique user identifier_ (or _UUID_) to every visitor of a site.
+
+	Combined with Javascript embedded in a collection of sites, the UUID can track the
+	visitor across sites.)
+
+* Create a credential given an email address and password (via the
+separate Authentication Service).
+
+* Attach one or more _credentials_ to the UUID.
+
+	A credential, such as an email address and password pair or an Oauth
+	credential, provides for the recovery of a previously-assigned UUID and full
+	restoration of a past session. (Any number of other microservices can
+	persist information given a credential, including preferences, browsing history,
+	and contact information.)
+
+
+## Workflow Examples
+
+The API for Session Service is described in an (Apiary document)[https://github.com/martinstreicher/session_service/blob/master/apiary.apib].
+
+This section explains how to consume the API to realize a number of common site features.
+
+### Track a visitor across many sites.
+
+### Register new credentials to save a session.
+
+### Login to recover a previous session.
+
+### Login via Facebook to save a session.
+
+### Add Facebook as a second credential.
+
+### Remove Facebook as a credential.
+
+### Combine a visitor's session with a previously-created, credentialed session.
 
 
 # Boot your Environment
