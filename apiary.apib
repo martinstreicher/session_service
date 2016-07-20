@@ -1,10 +1,11 @@
-dd FORMAT: 1A
+FORMAT: 1A
 HOST: http://polls.apiblueprint.org/
 
 # sessions_service
 
 The Sessions Service provides facilities to create a session, tie a 
-session to one or more user IDs, and create and authenticate login
+session to one or more user IDs, tie a session to one or more
+third-party identities, and create and authenticate login
 credentials via a separate Authentication Service. 
 
 
@@ -24,7 +25,7 @@ service discovery and use.
             "v1": {
                 "credentials_url":  "/api/v1/sessions/:id/credentials,
                 "logins_url":       "/api/v1/sessions/:id/logins",
-                "oauths_url":       "/api/v1/sessions/:id/oauths",
+                "identities_url":   "/api/v1/sessions/:id/identities",
                 "session_url":      "/api/v1/sessions/:id",
                 "sessions_url":     "/api/v1/sessions"
             }
@@ -55,7 +56,30 @@ This action returns a 200 status code and a JSON body.
 
 Find all information associated with a session ID. 
 
-This returns a 200 status code and a JSON body. 
+Success returns a 200 status code and a JSON body. 
+
++ Response 200 (application/json)
+    + Attributes
+        - session (Session)
+
+### Delete an existing Session[DELETE]
+
+Destroy an existing session and all credentials associated with it. 
+
++ Response 200 (application/json)
+    + Attributes
+        - session (Session)
+
++ Response 404 (application/json)
+
+
+## Identity [/api/v1/sessions/{session_id}/identities]
+
+### Request a new Oauth-based identity[POST]
+
++ Request
+    + Attributes 
+        - type (Identity, required) 
 
 + Response 200 (application/json)
     + Attributes
@@ -80,7 +104,6 @@ This returns a 200 status code and a JSON body.
 + Response 403 (application/json)
 
 + Response 409 (application/json)
-
 
 ### Authenticate an existing Login [GET]
 
@@ -154,13 +177,19 @@ This returns a 200 status code and a JSON body.
     - google - A user created via Google. 
     - login - A user created via the site directly. 
 
+## Identity (object)
+
+- type (enum[string], required)
+    - facebook - A user created via Facebook.
+    - twitter - A user created via Twitter. 
+    - google - A user created via Google. 
 
 ## Login (object)
 
 - email: `joe@example.org` (string, required) - An email address.
 - password: `password` (string, required) - A password. 
 
-  
+
 ## Session (object)
 
 - session_id: `12345` (number, required) - The session ID. 
