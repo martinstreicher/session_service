@@ -2,7 +2,7 @@
 
 A session microservice written in Elixir and Phoenix.
 
-Read the API documentation as HTML (here)[http://htmlpreview.github.io/?https://raw.githubusercontent.com/martinstreicher/session_service/master/apiary.html?token=AAB6V8fRBZoe3e43ucOsJ8XBttKytRXEks5XmUkewA%3D%3D].
+Read the API documentation as HTML [here](http://htmlpreview.github.io/?https://raw.githubusercontent.com/martinstreicher/session_service/master/apiary.html?token=AAB6V8fRBZoe3e43ucOsJ8XBttKytRXEks5XmUkewA%3D%3D).
 
 
 # Purpose
