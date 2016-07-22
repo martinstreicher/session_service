@@ -2,8 +2,6 @@
 
 A session microservice written in Elixir and Phoenix.
 
-Read the API documentation as HTML [here](http://htmlpreview.github.io/?https://raw.githubusercontent.com/martinstreicher/session_service/master/apiary.html?token=AAB6V8fRBZoe3e43ucOsJ8XBttKytRXEks5XmUkewA%3D%3D).
-
 
 # Purpose
 
@@ -28,7 +26,8 @@ separate Authentication Service).
 
 ## Workflow Examples
 
-The API for Session Service is described in an (Apiary document)[https://github.com/martinstreicher/session_service/blob/master/apiary.apib].
+The API for Session Service is described in an [Apiary document](https://github.com/martinstreicher/session_service/blob/master/apiary.apib). The API documentation is also [available as HTML](http://htmlpreview.github.io/?https://raw.githubusercontent.com/martinstreicher/session_service/master/apiary.html?token=AAB6V8fRBZoe3e43ucOsJ8XBttKytRXEks5XmUkewA%3D%3D).
+
 
 This section explains how to consume the API to realize a number of common site features.
 
@@ -60,89 +59,6 @@ Use source code or your operating system's package manager to install these pack
 * PostgreSQL
 
 * Redis
-
-
-# Generate a key for Guardian
-
-1. Copy _config/dev.secrets.exs.example_ to _config/dev.secrets.exs_ to bootstrap application configuration.
-
-2. Copy the following snippet into the configuration file for each environment. For production, say,
-copy the code to _config/prod.secrets.exs_. (The example secrets file provided for development
-already contains the snippet.) Do not replace the values in `<>` yet.
-
-		config :guardian, Guardian,
-			issuer:         "SessionService",
-			secret_key:
-				%{
-					"crv" => "<crv from previous step>",
-					"d"   => "<d>",
-					"kty" => "<kty>",
-					"x"   => "<x>",
-					"y"   => "<y>" },
-			serializer:     SessionService.GuardianSerializer,
-			ttl:            { 30, :days }
-
-
-3. Create an OpenSSL key. This command produces an _EC_-type key in the
-file named _ec-secp521r1.pem_.(Learn more about generating keys in the
-[JSON Object Signing and Encryption documentation](https://hexdocs.pm/jose/key-generation.html)).
-
-		$ openssl ecparam -name secp521r1 -genkey -noout -out ec-secp521r1.pem
-
-
-3. Run the Elixir REPL with Mix to load all of the project dependencies.
-
-		$ iex -S mix
-
-
-5. Use `JOSE.JWK.from_pem_file/1` and `JOSE.JWK.to_map/1` to convert the key into a readable map. The argument to
-`JOSE.JWK.from_pem_file/1` is the name of the file generated in (2), here _ec-secp521r1.pem_. (Portions of
-the output have been elided to obscure the values of the map.)
-
-		iex> JOSE.JWK.to_map JOSE.JWK.from_pem_file("ec-secp521r1.pem")
-		{%{kty: :jose_jwk_kty_ec},
-		 %{"crv" => "P-521",
-			 "d"   => "Aco1U...6Dx5",
-			 "kty" => "EC",
-			 "x"   => "AK2yL...0fSX",
-			 "y"   => "Afzjz...hGn9"}}
-
-
-6. Copy the value of each key in the map above to the corresponding key in the Guardian
-configuration created in (1). The end result should resemble this (portions of the
-secrets have been elided):
-
-		config :guardian, Guardian,
-			issuer:         "SessionService",
-			secret_key:
-				%{
-					"crv" => "P-521",
-					"d"   => "Aco1U...6Dx5",
-					"kty" => "EC",
-					"x"   => "AK2yL...0fSX",
-					"y"   => "Afzjz...hGn9" },
-			serializer:     SessionService.GuardianSerializer,
-			ttl:            { 30, :days }
-
-	If you choose to use another form of key, such as OKP, the map may differ. For instance, OKP adds
-	an `alg` key and omits the `y` key.
-
-
-7. Supplant the placeholders `<local database username>` and `<username's database password>`
-in _config/dev.secrets.exs_ with the name and password of a local, capable database user.
-Here, the name is `martini` and the password is `someunlikelypassword`.
-
-		config :session_service, SessionService.Repo,
-			username: "martini",
-			password: "someunlikelypassword"
-
-	Ensure that the configuration files for other environments also
-	have proper, working database credentials.
-
-
-In general, user names, passwords, certificates, and keys should not be committed
-to Github. Use environment variables and best practices to configure credentials.
-
 
 
 # Run the code
