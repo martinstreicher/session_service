@@ -8,12 +8,15 @@ defmodule SessionService.Session do
     timestamps()
   end
 
+  @required_fields ~w(uuid)
+  @optional_fields ~w()
+
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
-  def changeset(struct, params \\ %{}) do
-    struct
-    |> cast(params, [:uuid])
+  def changeset(model, params \\ :empty) do
+    model
+    |> cast(params, @required_fields, @optional_fields)
     |> validate_required([:uuid])
     |> unique_constraint(:uuid)
   end
