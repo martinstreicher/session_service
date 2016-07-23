@@ -16,10 +16,14 @@ services can query the root path for a directory of
 endpoints, rather than hard-code URLs, allowing for more flexible
 service discovery and use.
 
-
 ### Retrieve the entry points [GET]
 
-+ Response 200 (application/json)
++ Request JSON Message
+    + Headers
+    
+            Accept: application/vnd.api+json
+            
++ Response 200 (application/vnd.api+json)
 
         {
             "v1": {
@@ -31,6 +35,12 @@ service discovery and use.
             }
         }
 
++ Response 406 (application/vnd.api+json)
+
+        {
+            "error": "Accept header is not application/vnd.api+json"
+        }
+
 
 ## Sessions [/api/v1/sessions]
 
@@ -40,11 +50,11 @@ Request a new session ID and user ID pair.
 
 This action returns a 200 status code and a JSON body.
 
-+ Response 200 (application/json)
++ Response 200 (application/vnd.api+json)
     + Attributes
         - session (Session)
 
-+ Response 403 (application/json)
++ Response 403 (application/vnd.api+json)
 
 
 ## Session [/api/v1/sessions/{session_id}]
@@ -58,7 +68,7 @@ Find all information associated with a session ID.
 
 Success returns a 200 status code and a JSON body.
 
-+ Response 200 (application/json)
++ Response 200 (application/vnd.api+json)
     + Attributes
         - session (Session)
 
@@ -67,11 +77,11 @@ Success returns a 200 status code and a JSON body.
 
 Destroy an existing session and all credentials associated with it.
 
-+ Response 200 (application/json)
++ Response 200 (application/vnd.api+json)
     + Attributes
         - session (Session)
 
-+ Response 404 (application/json)
++ Response 404 (application/vnd.api+json)
 
 
 ## Identity [/api/v1/sessions/{session_id}/identities]
@@ -82,7 +92,7 @@ Destroy an existing session and all credentials associated with it.
     + Attributes
         - type (Identity, required)
 
-+ Response 200 (application/json)
++ Response 200 (application/vnd.api+json)
     + Attributes
         - session (Session)
         - redirect_uri (string)
@@ -100,13 +110,13 @@ Destroy an existing session and all credentials associated with it.
     + Attributes
         - login (Login)
 
-+ Response 201 (application/json)
++ Response 201 (application/vnd.api+json)
     + Attributes
         - session (Session)
 
-+ Response 403 (application/json)
++ Response 403 (application/vnd.api+json)
 
-+ Response 409 (application/json)
++ Response 409 (application/vnd.api+json)
 
 
 ### Authenticate an existing Login [GET]
@@ -115,11 +125,11 @@ Destroy an existing session and all credentials associated with it.
     + Attributes
         - login (Login)
 
-+ Response 200 (application/json)
++ Response 200 (application/vnd.api+json)
     + Attributes
         - session (Session)
 
-+ Response 401 (application/json)
++ Response 401 (application/vnd.api+json)
 
 
 ## Credential [/api/v1/sessions/{session_id}/credentials]
@@ -134,7 +144,7 @@ Destroy an existing session and all credentials associated with it.
     + Attributes
         - credential (Credential)
 
-+ Response 201 (application/json)
++ Response 201 (application/vnd.api+json)
     + Attributes
         - session (Session)
 
@@ -145,11 +155,11 @@ Destroy an existing session and all credentials associated with it.
     + Attributes
         - credential (Credential, required)
 
-+ Response 200 (application/json)
++ Response 200 (application/vnd.api+json)
     + Attributes
         - session (Session)
 
-+ Response 404 (application/json)
++ Response 404 (application/vnd.api+json)
 
 
 ### Delete an existing Credential [DELETE]
@@ -158,21 +168,20 @@ Destroy an existing session and all credentials associated with it.
     + Attributes
         - credential (Credential, required)
 
-+ Response 200 (application/json)
++ Response 200 (application/vnd.api+json)
     + Attributes
         - session (Session)
 
-+ Response 401 (application/json)
++ Response 401 (application/vnd.api+json)
 
         Credential cannot be deleted, likely because the session is not associated with the credential.
 
-+ Response 404 (application/json)
++ Response 404 (application/vnd.api+json)
 
         Credential cannot be found.
 
 
 # Data Structures
-
 
 ## Credential (object)
 
