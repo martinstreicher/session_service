@@ -35,6 +35,8 @@ service discovery and use.
             }
         }
 
++ Response 401 (application/vnd.api+json)
+
 + Response 406 (application/vnd.api+json)
 
         {
@@ -76,6 +78,9 @@ Success returns a 200 status code and a JSON body.
     + Attributes
         - session (Session)
 
++ Response 401 (application/vnd.api+json)
+
++ Response 404 (application/vnd.api+json)
 
 ### Delete an existing Session[DELETE]
 
@@ -101,12 +106,17 @@ Destroy an existing session and all credentials associated with it.
         - session (Session)
         - redirect_uri (string)
 
++ Response 401 (application/vnd.api+json)
+
++ Response 403 (application/vnd.api+json)
+
++ Response 409 (application/vnd.api+json)
+
 
 ## Login [/api/v1/sessions/{session_id}/logins]
 
 + Parameter
     + session_id: `12345` (number, required)
-
 
 ### Create a new Login [POST]
 
@@ -118,10 +128,11 @@ Destroy an existing session and all credentials associated with it.
     + Attributes
         - session (Session)
 
++ Response 401 (application/vnd.api+json)
+
 + Response 403 (application/vnd.api+json)
 
 + Response 409 (application/vnd.api+json)
-
 
 ### Authenticate an existing Login [GET]
 
@@ -141,7 +152,6 @@ Destroy an existing session and all credentials associated with it.
 + Parameter
     + session_id: `12345` (number, required)
 
-
 ### Create a new Credential [POST]
 
 + Request (application/json)
@@ -152,6 +162,11 @@ Destroy an existing session and all credentials associated with it.
     + Attributes
         - session (Session)
 
++ Response 401 (application/vnd.api+json)
+
++ Response 403 (application/vnd.api+json)
+
++ Response 404 (application/vnd.api+json)
 
 ### Lookup an existing Credential [GET]
 
@@ -163,8 +178,11 @@ Destroy an existing session and all credentials associated with it.
     + Attributes
         - session (Session)
 
-+ Response 404 (application/vnd.api+json)
++ Response 401 (application/vnd.api+json)
 
++ Response 403 (application/vnd.api+json)
+
++ Response 404 (application/vnd.api+json)
 
 ### Delete an existing Credential [DELETE]
 
@@ -178,11 +196,9 @@ Destroy an existing session and all credentials associated with it.
 
 + Response 401 (application/vnd.api+json)
 
-        Credential cannot be deleted, likely because the session is not associated with the credential.
-
++ Response 403 (application/vnd.api+json)
+        
 + Response 404 (application/vnd.api+json)
-
-        Credential cannot be found.
 
 
 # Data Structures
