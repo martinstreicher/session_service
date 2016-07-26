@@ -75,7 +75,6 @@ Now visit [`localhost:4000`](http://localhost:4000) from your browser.
 Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
 
 
-
 # Running Integration Tests
 The session_service uses [hound](https://github.com/HashNuke/hound) to run integration tests. In
 order to run the tests, you need a webdriver installed. This project uses [chromedriver](https://sites.google.com/a/chromium.org/chromedriver/).
@@ -95,6 +94,17 @@ $ mix test.all
 ```
 This opens the chromedriver on `port 9515`.
 
+
+# Generate HTML documentation
+
+The Session Service API is documented in [Apiary](https://github.com/martinstreicher/session_service/blob/master/apiary.apib).
+An HTML version of the document can be generated easily with [_aglio_](https://github.com/danielgtaylor/aglio), a Blueprint renderer.
+
+	$ npm install -g aglio
+	$ aglio -i apiary.apib -o apiary.html
+	$ open apiary.html
+
+Regenerate and commit the HTML each time you update the Apirary document.
 
 
 # References
