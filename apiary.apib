@@ -1,5 +1,5 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
+HOST: http://session-service.rentpathservices.com/
 
 # sessions_service
 
@@ -13,7 +13,7 @@ credentials via a separate Authentication Service.
 
 The root path returns a map of available service endpoints. External
 services can query the root path for a directory of
-endpoints, rather than hard-code URLs, allowing for more flexible
+endpoints rather than hard-code URLs, allowing for more flexible
 service discovery and use.
 
 ### Retrieve the entry points [GET]
@@ -26,21 +26,30 @@ service discovery and use.
 + Response 200 (application/vnd.api+json)
 
         {
-            "v1": {
-                "credentialsUrl":   "/api/v1/sessions/:id/credentials",
-                "loginsUrl":        "/api/v1/sessions/:id/logins",
-                "identitiesUrl":    "/api/v1/sessions/:id/identities",
-                "sessionUrl":       "/api/v1/sessions/:id",
-                "sessionsUrl":      "/api/v1/sessions"
+            "data": { 
+                "v1": {
+                    "links": {
+                        "credentialsUrl":   "/api/v1/sessions/:id/credentials",
+                        "loginsUrl":        "/api/v1/sessions/:id/logins",
+                        "identitiesUrl":    "/api/v1/sessions/:id/identities",
+                        "sessionUrl":       "/api/v1/sessions/:id",
+                        "sessionsUrl":      "/api/v1/sessions"
+                    }
+                }
             }
         }
 
 + Response 401 (application/vnd.api+json)
-
+        
 + Response 406 (application/vnd.api+json)
 
         {
-            "error": "Accept header is not application/vnd.api+json"
+            "errors": [
+                { 
+                    "status": 406,
+                    "title": "Accept header is not application/vnd.api+json" 
+                }
+            ]
         }
 
 
@@ -54,12 +63,14 @@ person destroys the visit or the visit is purged upon expiration.
 
 Request a new session ID and user ID pair.
 
-This action returns a 200 status code and a JSON body.
-
 + Response 201 (application/vnd.api+json)
+    + Headers 
+    
+            Location: /api/v1/sessions/{session_id}
+    
     + Attributes
-        - session (Session)
-
+        - data (Session)
+            
 + Response 403 (application/vnd.api+json)
 
 
@@ -72,11 +83,9 @@ This action returns a 200 status code and a JSON body.
 
 Find all information associated with a session ID.
 
-Success returns a 200 status code and a JSON body.
-
 + Response 200 (application/vnd.api+json)
     + Attributes
-        - session (Session)
+        - data (Session)
 
 + Response 401 (application/vnd.api+json)
 
@@ -86,9 +95,9 @@ Success returns a 200 status code and a JSON body.
 
 Destroy an existing session and all credentials associated with it.
 
-+ Response 202 (application/vnd.api+json)
++ Response 200 (application/vnd.api+json)
     + Attributes
-        - session (Session)
+        - data (Session)
 
 + Response 404 (application/vnd.api+json)
 
@@ -99,12 +108,16 @@ Destroy an existing session and all credentials associated with it.
 
 + Request
     + Attributes
-        - type (Identity, required)
+        - data (Identity, required)
 
 + Response 201 (application/vnd.api+json)
+    + Headers 
+    
+            Location: /api/v1/sessions/{session_id}/identities/{identity_id}
+            
     + Attributes
-        - session (Session)
-        - redirect_uri (string)
+        - data (Session)
+            - redirect_uri (string)
 
 + Response 401 (application/vnd.api+json)
 
@@ -125,6 +138,11 @@ Destroy an existing session and all credentials associated with it.
         - login (Login)
 
 + Response 201 (application/vnd.api+json)
+
+    + Headers 
+    
+            Location: /api/v1/sessions/{session_id}/logins/{login_id}
+
     + Attributes
         - session (Session)
 
@@ -159,6 +177,10 @@ Destroy an existing session and all credentials associated with it.
         - credential (Credential)
 
 + Response 201 (application/vnd.api+json)
+    + Headers 
+    
+            Location: /api/v1/sessions/{session_id}/identities/{identity_id}
+            
     + Attributes
         - session (Session)
 
@@ -205,29 +227,55 @@ Destroy an existing session and all credentials associated with it.
 
 ## Credential (object)
 
-- user_id: `abcdefgh123` (string, required) - The unique ID of the user.
-- type (enum[string], required)
-    - facebook - A user created via Facebook.
-    - twitter - A user created via Twitter.
-    - google - A user created via Google.
-    - login - A user created via the site directly.
+- id: `abcdefgh123` (string, required) - The unique ID of the user.
+- type: `credentials`
+- attributes
+    - provider (enum[string], required)
+        - facebook - A user created via Facebook.
+        - twitter - A user created via Twitter.
+        - google - A user created via Google.
+        - login - A user created via the site directly.
+
+
+## Error (object) 
+- status: `404` (string, required) - The HTTP status code applicable to this error
+- title: `Resource not found` (string, required) - A short summary of the problem that does not change from occurrence to 
+occurrence of the problem, except for purposes of localization
+- detail: `An explanation of the problem` - More detail about the issue, can be localized
 
 
 ## Identity (object)
 
-- type (enum[string], required)
-    - facebook - A user created via Facebook.
-    - twitter - A user created via Twitter.
-    - google - A user created via Google.
+- id: `abcdefgh123` (string, required) - The unique ID of the resource.
+- type: `identities` 
+- attributes
+    - provider (enum[string], required)
+        - facebook - A user created via Facebook.
+        - twitter - A user created via Twitter.
+        - google - A user created via Google.
+
+
+## Link (object)
+
+- self: `http://example.com/some/id` (string, optional) - A URL pointing to the resource in the response. 
+- related (Related, optional)
 
 
 ## Login (object)
 
-- email: `joe@example.org` (string, required) - An email address.
-- password: `password` (string, required) - A password.
+- attributes
+    - email: `joe@example.org` (string, required) - An email address.
+    - password: `password` (string, required) - A password.
+
+
+## Related (object)
+
+- href: `http://example.com/some/path` (string, optional) - A URL. 
+- meta (object, optional) - A collection of metadata for the link. 
 
 
 ## Session (object)
 
-- session_id: `12345` (number, required) - The session ID.
-- credentials (array[Credential], required)
+- id: `12345` (number, required) - The session ID.
+- type: `sessions`
+- relationships (array[Credential], required)
