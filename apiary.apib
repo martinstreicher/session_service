@@ -127,7 +127,7 @@ Given a set of authentication credentials, create a new login.
             Location: /api/v1/sessions/{session_id}/credentials/{credential_id}
 
     + Attributes
-        - session (Session)
+        - data (Session)
 
 + Response 401 (application/vnd.api+json)
 
@@ -142,11 +142,11 @@ previous visit(s) is(are) restored.
 
 + Request (application/json)
     + Attributes
-        - login (Login)
+        - data (Login)
 
 + Response 200 (application/vnd.api+json)
     + Attributes
-        - session (Session)
+        - data (Session)
 
 + Response 401 (application/vnd.api+json)
 
@@ -158,9 +158,9 @@ A credential represents a registered user, either local or via a third-party.
 + Parameter
     + session_id: `abcdefgh123` (string, required)
 
-### Request Oauth Authentication [GET]
+### Get the Oauth URI [GET]
 
-Find the URL of the third-party authentication page. 
+Get the URL of a third-party authentication page. 
 
 + Request (application/json)
     + Attributes
@@ -180,7 +180,7 @@ Find the URL of the third-party authentication page.
 
 ### Initiate Oauth Authentication [POST]
 
-Start the Oauth process and receive the modified session. 
+Initiate the Oauth process. 
 
 + Request (application/json)
     + Attributes
@@ -207,9 +207,11 @@ Start the Oauth process and receive the modified session.
 
 ### Get an existing Credential [GET]
 
+Get the details of an existing credential, given the session and credential ID. 
+
 + Response 200 (application/vnd.api+json)
     + Attributes
-        - session (Session)
+        - data (Session)
 
 + Response 401 (application/vnd.api+json)
 
@@ -219,9 +221,12 @@ Start the Oauth process and receive the modified session.
 
 ### Delete an existing Credential [DELETE]
 
+Delete a credential from the session. This can be used to revoke 
+a local login or third-party provider. 
+
 + Response 200 (application/vnd.api+json)
     + Attributes
-        - session (Session)
+        - data (Session)
 
 + Response 401 (application/vnd.api+json)
 
