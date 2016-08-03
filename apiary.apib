@@ -8,6 +8,7 @@ session to one or more user IDs, tie a session to one or more
 third-party identities, and create and authenticate login
 credentials via a separate Authentication Service.
 
+# API Discovery
 
 ## Root [/]
 
@@ -15,7 +16,7 @@ The root path returns a map of available service endpoints. External
 services can query the root path for a directory of
 endpoints rather than hard-code URLs, allowing for more flexible
 service discovery and use.
-
+ [
 ### Retrieve the entry points [GET]
 
 + Request JSON Message
@@ -117,7 +118,7 @@ Given a set of authentication credentials, create a new login.
 
 + Request (application/json)
     + Attributes
-        - login (Login)
+        - data (Login)
 
 + Response 201 (application/vnd.api+json)
 
@@ -136,6 +137,9 @@ Given a set of authentication credentials, create a new login.
 
 ### Authenticate an existing Login [GET]
 
+Authenticate a set of credentials. If the credentials match, the user's 
+previous visit(s) is(are) restored. 
+
 + Request (application/json)
     + Attributes
         - login (Login)
@@ -149,10 +153,14 @@ Given a set of authentication credentials, create a new login.
 
 ## Credentials [/api/v1/sessions/{session_id}/credentials]
 
+A credential represents a registered user, either local or via a third-party. 
+
 + Parameter
     + session_id: `abcdefgh123` (string, required)
 
 ### Request Oauth Authentication [GET]
+
+Find the URL of the third-party authentication page. 
 
 + Request (application/json)
     + Attributes
@@ -171,6 +179,8 @@ Given a set of authentication credentials, create a new login.
 + Response 404 (application/vnd.api+json)
 
 ### Initiate Oauth Authentication [POST]
+
+Start the Oauth process and receive the modified session. 
 
 + Request (application/json)
     + Attributes
@@ -228,10 +238,10 @@ Given a set of authentication credentials, create a new login.
 - type: `credentials`
 - attributes
     - provider (enum[string], required)
+        - local - A user created via the site directly.
         - facebook - A user created via Facebook.
         - twitter - A user created via Twitter.
         - google - A user created via Google.
-        - local - A user created via the site directly.
 
 
 ## Error (object) 
@@ -252,6 +262,7 @@ occurrence of the problem, except for purposes of localization
 - attributes
     - email: `joe@example.org` (string, required) - An email address.
     - password: `password` (string, required) - A password.
+    - password_confirmation: `password` (string, optional) - A password challenge, only required for creation.
 
 
 ## Related (object)
