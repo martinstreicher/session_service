@@ -77,7 +77,7 @@ Request a new session ID and user ID pair.
 ## Session [/api/v1/sessions/{session_id}]
 
 + Parameters
-    + session_id: `12345` (number, required) - ID of the Session
+    + session_id: `abcdefgh123` (string, required) - ID of the Session
 
 ### Get an existing Session [GET]
 
@@ -129,7 +129,7 @@ Destroy an existing session and all credentials associated with it.
 ## Login [/api/v1/sessions/{session_id}/logins]
 
 + Parameter
-    + session_id: `12345` (number, required)
+    + session_id: `abcdefgh123` (string, required)
 
 ### Create a new Login [POST]
 
@@ -168,7 +168,7 @@ Destroy an existing session and all credentials associated with it.
 ## Credential [/api/v1/sessions/{session_id}/credentials]
 
 + Parameter
-    + session_id: `12345` (number, required)
+    + session_id: `abcdefgh123` (string, required)
 
 ### Create a new Credential [POST]
 
@@ -179,7 +179,7 @@ Destroy an existing session and all credentials associated with it.
 + Response 201 (application/vnd.api+json)
     + Headers 
     
-            Location: /api/v1/sessions/{session_id}/identities/{identity_id}
+            Location: /api/v1/sessions/{session_id}/credentials/{identity_id}
             
     + Attributes
         - session (Session)
@@ -276,6 +276,6 @@ occurrence of the problem, except for purposes of localization
 
 ## Session (object)
 
-- id: `12345` (number, required) - The session ID.
-- type: `sessions`
+- id: `abcdefgh123` (string, required) - The session ID.
+- type: `sessions` (string, required) - The type of resource. 
 - relationships (array[Credential], required)
