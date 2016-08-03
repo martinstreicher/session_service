@@ -81,7 +81,7 @@ Request a new session ID and user ID pair.
 
 ### Get an existing Session [GET]
 
-Find all information associated with a session ID.
+Find an existing session.
 
 + Response 200 (application/vnd.api+json)
     + Attributes
@@ -102,36 +102,18 @@ Destroy an existing session and all credentials associated with it.
 + Response 404 (application/vnd.api+json)
 
 
-## Identity [/api/v1/sessions/{session_id}/identities]
+## Logins [/api/v1/sessions/{session_id}/logins]
 
-### Request a new Oauth-based identity[POST]
-
-+ Request
-    + Attributes
-        - data (Identity, required)
-
-+ Response 201 (application/vnd.api+json)
-    + Headers 
-    
-            Location: /api/v1/sessions/{session_id}/identities/{identity_id}
-            
-    + Attributes
-        - data (Session)
-            - redirect_uri (string)
-
-+ Response 401 (application/vnd.api+json)
-
-+ Response 403 (application/vnd.api+json)
-
-+ Response 409 (application/vnd.api+json)
-
-
-## Login [/api/v1/sessions/{session_id}/logins]
+A login captures authentication information, such as an email 
+address and password. A login is a local Credential, valid only
+on the local site. 
 
 + Parameter
     + session_id: `abcdefgh123` (string, required)
 
 ### Create a new Login [POST]
+
+Given a set of authentication credentials, create a new login. 
 
 + Request (application/json)
     + Attributes
@@ -141,7 +123,7 @@ Destroy an existing session and all credentials associated with it.
 
     + Headers 
     
-            Location: /api/v1/sessions/{session_id}/logins/{login_id}
+            Location: /api/v1/sessions/{session_id}/credentials/{credential_id}
 
     + Attributes
         - session (Session)
@@ -165,24 +147,22 @@ Destroy an existing session and all credentials associated with it.
 + Response 401 (application/vnd.api+json)
 
 
-## Credential [/api/v1/sessions/{session_id}/credentials]
+## Credentials [/api/v1/sessions/{session_id}/credentials]
 
 + Parameter
     + session_id: `abcdefgh123` (string, required)
 
-### Create a new Credential [POST]
+### Request a new Oauth-based Credential [GET]
 
 + Request (application/json)
     + Attributes
         - credential (Credential)
 
-+ Response 201 (application/vnd.api+json)
-    + Headers 
-    
-            Location: /api/v1/sessions/{session_id}/credentials/{identity_id}
-            
++ Response 200 (application/vnd.api+json)
+ 
     + Attributes
-        - session (Session)
+        - data
+            - redirect_uri (string, required)
 
 + Response 401 (application/vnd.api+json)
 
@@ -190,11 +170,14 @@ Destroy an existing session and all credentials associated with it.
 
 + Response 404 (application/vnd.api+json)
 
-### Lookup an existing Credential [GET]
 
-+ Request (application/json)
-    + Attributes
-        - credential (Credential, required)
+## Credential [/api/v1/sessions/{session_id}/credentials/{credential_id}]
+
++ Parameter
+    + session_id: `abcdefgh123` (string, required)
+    + credential_id: `abcdefgh123` (string, required)
+
+### Get an existing Credential [GET]
 
 + Response 200 (application/vnd.api+json)
     + Attributes
@@ -207,10 +190,6 @@ Destroy an existing session and all credentials associated with it.
 + Response 404 (application/vnd.api+json)
 
 ### Delete an existing Credential [DELETE]
-
-+ Request (application/json)
-    + Attributes
-        - credential (Credential, required)
 
 + Response 200 (application/vnd.api+json)
     + Attributes
@@ -234,7 +213,7 @@ Destroy an existing session and all credentials associated with it.
         - facebook - A user created via Facebook.
         - twitter - A user created via Twitter.
         - google - A user created via Google.
-        - login - A user created via the site directly.
+        - local - A user created via the site directly.
 
 
 ## Error (object) 
@@ -242,17 +221,6 @@ Destroy an existing session and all credentials associated with it.
 - title: `Resource not found` (string, required) - A short summary of the problem that does not change from occurrence to 
 occurrence of the problem, except for purposes of localization
 - detail: `An explanation of the problem` - More detail about the issue, can be localized
-
-
-## Identity (object)
-
-- id: `abcdefgh123` (string, required) - The unique ID of the resource.
-- type: `identities` 
-- attributes
-    - provider (enum[string], required)
-        - facebook - A user created via Facebook.
-        - twitter - A user created via Twitter.
-        - google - A user created via Google.
 
 
 ## Link (object)
