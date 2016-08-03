@@ -61,7 +61,7 @@ person destroys the visit or the visit is purged upon expiration.
 
 ### Create a new Session [POST]
 
-Request a new session ID and user ID pair.
+Request a new session ID.
 
 + Response 201 (application/vnd.api+json)
     + Headers 
@@ -152,17 +152,35 @@ Given a set of authentication credentials, create a new login.
 + Parameter
     + session_id: `abcdefgh123` (string, required)
 
-### Request a new Oauth-based Credential [GET]
+### Request Oauth Authentication [GET]
 
 + Request (application/json)
     + Attributes
-        - credential (Credential)
+        - data (Credential)
 
 + Response 200 (application/vnd.api+json)
  
     + Attributes
         - data
             - redirect_uri (string, required)
+
++ Response 401 (application/vnd.api+json)
+
++ Response 403 (application/vnd.api+json)
+
++ Response 404 (application/vnd.api+json)
+
+### Initiate Oauth Authentication [POST]
+
++ Request (application/json)
+    + Attributes
+        - data
+            - redirect_uri (string, required)
+
++ Response 201 (application/vnd.api+json)
+ 
+    + Attributes
+        - data (Credential)
 
 + Response 401 (application/vnd.api+json)
 
